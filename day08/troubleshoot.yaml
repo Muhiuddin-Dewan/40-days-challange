@@ -1,0 +1,46 @@
+apiVersion: apps/v1 ### here is the problem
+kind:  Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    env: demo
+spec:
+  template:
+    metadata:
+      labels:
+        env: demo
+      name: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+  replicas: 3
+  selector:
+    matchLabels:
+      env: demo
+
+
+apiVersion: apps/v1
+kind:  Deployment
+metadata:
+  name: nginx-deploy
+  labels:
+    env: demo
+spec:
+  template:
+    metadata:
+      labels:
+        env: dev ### here is the problem. env should be match with selector
+      name: nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+  replicas: 3
+  selector:
+    matchLabels:
+      env: dev
